@@ -1,0 +1,5 @@
+---
+- name: Installs the latest version of tar from yum repository
+  yum:
+    name: tar
+    state: latest

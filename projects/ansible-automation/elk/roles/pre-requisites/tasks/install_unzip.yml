@@ -1,0 +1,5 @@
+---
+- name: Installs unzip from yum repository
+  yum:
+    name: unzip
+    state: latest

@@ -1,0 +1,29 @@
+---
+- name: Download binaries of kibana
+  get_url:
+    url: https://artifacts.elastic.co/downloads/kibana/kibana-5.2.2-linux-x86_64.tar.gz
+    dest: /tmp/kibana-5.2.2-linux-x86_64.tar.gz
+
+- name: Extract the binaries and place them under opt directory
+  unarchive:
+    dest: /opt
+    src: /tmp/kibana-5.2.2-linux-x86_64.tar.gz
+    copy: no
+
+- name: Update the owner/permission of kibana 
+  file:
+    path: /opt/kibana-5.2.2-linux-x86_64
+    owner: centos
+    group: centos
+    recurse: yes
+
+- name: Update the config file of kibana to point the elasticsearch 
+  lineinfile:
+    dest: /opt/kibana-5.2.2-linux-x86_64/config/kibana.yml
+    regexp: '^elasticsearch.url:'
+    insertafter: '^# The URL of the Elasticsearch instance'
+    line: 'elasticsearch.url: "http://127.0.0.1:9200"'
+
+- name: Start the kibana service 
+  shell: runuser -l centos -c '/opt/kibana-5.2.2-linux-x86_64/bin/kibana &'
+

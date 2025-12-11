@@ -1,0 +1,5 @@
+---
+- name: Installs the latest version of java from yum repository
+  yum:
+    name: java
+    state: latest

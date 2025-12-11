@@ -1,0 +1,29 @@
+---
+- name: Download binaries of logstash from artifacts.elastic website
+  get_url:
+    url: https://artifacts.elastic.co/downloads/logstash/logstash-5.2.2.zip
+    dest: /tmp/logstash-5.2.2.zip
+
+- name: Unzip the binaries of logstash and place them under opt directory
+  unarchive:
+    dest: /opt
+    src: /tmp/logstash-5.2.2.zip
+    copy: no
+
+- name: Update the file owner/permissions of logstash 
+  file:
+    path: /opt/logstash-5.2.2
+    owner: centos
+    group: centos
+    recurse: yes
+
+- name: Transfer the default config file to destination in logstash directory
+  copy:
+    src: logstash-simple.conf
+    dest: /opt/logstash-5.2.2
+    owner: centos
+    group: centos
+
+- name: Starting the Logstash service 
+  shell: runuser -l centos -c '/opt/logstash-5.2.2/bin/logstash -f /opt/logstash-5.2.2/logstash-simple.conf &'
+  

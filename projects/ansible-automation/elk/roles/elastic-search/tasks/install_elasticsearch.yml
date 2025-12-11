@@ -1,0 +1,27 @@
+---
+- name: Downloads elastic search from elasticsearch.org
+  get_url:
+    url: https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/zip/elasticsearch/2.1.1/elasticsearch-2.1.1.zip
+    dest: /tmp/elasticsearch-2.1.1.zip
+
+- name: Extract the archive of elasticsearch
+  unarchive:
+    dest: /opt
+    src: /tmp/elasticsearch-2.1.1.zip
+    copy: no
+
+- name: Update the permission/owner of elasticsearch
+  file:
+    path: /opt/elasticsearch-2.1.1/
+    owner: centos
+    group: centos
+    recurse: yes
+
+# Can be skipped if not needed
+
+- name: Start the elasticsearch service 
+  shell: runuser -l centos -c '/opt/elasticsearch-2.1.1/bin/elasticsearch &'
+
+## Note: TO verify the service is installed and working properly, login into destination server and perform 'curl http://127.0.0.1:9200'
+
+

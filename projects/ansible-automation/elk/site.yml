@@ -1,0 +1,12 @@
+---
+- name: ELK Stack
+  hosts: elk
+  remote_user: centos  #Assumption made based on ec2 instances of aws
+  become: yes
+  become_method: sudo
+
+  roles:
+    - pre-requisites
+    - elastic-search
+    - log-stash
+    - kibana

@@ -1,0 +1,3 @@
+#This playbook installs logstash with a simple default conf file in templates directory
+---
+- include: install_logstash.yml

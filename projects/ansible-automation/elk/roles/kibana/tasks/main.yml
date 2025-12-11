@@ -1,0 +1,4 @@
+#This playbook installs kibana for the elk stack
+
+---
+- include: install_kibana.yml
